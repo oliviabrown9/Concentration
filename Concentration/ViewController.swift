@@ -11,9 +11,13 @@ import UIKit
 class ViewController: UIViewController {
     
     @IBOutlet weak var flipCountLabel: UILabel!
+    @IBOutlet weak var scoreLabel: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet var cardButtons: [UIButton]!
     
     lazy var game = Concentration(numbersOfPairsOfCards: (cardButtons.count + 1) / 2)
+    var theme: Theme?
+    var emojiChoices = [String]()
     
     @IBAction func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.index(of: sender) {
@@ -38,8 +42,8 @@ class ViewController: UIViewController {
                 button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0) : theme!.cardBackgroundColor
             }
         }
-        
         flipCountLabel.text = "Flips: \(game.flipCount)"
+        scoreLabel.text = "Score: \(game.score)"
     }
     
     let themes = [
@@ -69,9 +73,6 @@ class ViewController: UIViewController {
               cardBackgroundColor: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1))
     ]
     
-    var theme: Theme?
-    var emojiChoices = [String]()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setTheme()
@@ -92,6 +93,7 @@ class ViewController: UIViewController {
         theme = themes[(Int(arc4random_uniform(UInt32(themes.count))))]
         emojiChoices = theme!.emojiChoices
         view.backgroundColor = theme!.backgroundColor
+        titleLabel.text = theme!.name
         
         for button in cardButtons {
             button.backgroundColor = theme!.cardBackgroundColor
