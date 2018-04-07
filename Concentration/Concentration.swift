@@ -17,15 +17,17 @@ class Concentration {
     var score = 0
     
     var indexOfOneAndOnlyFaceUpCard: Int?
+    var dateOfPreviousMove: Date?
     
     func chooseCard(at index: Int) {
         if !cards[index].isMatched, !cards[index].isFaceUp  {
             flipCount += 1
-            if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {
+            if let matchIndex = indexOfOneAndOnlyFaceUpCard, let firstDate = dateOfPreviousMove, matchIndex != index {
                 if cards[matchIndex].identifier == cards[index].identifier {
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
-                    score += 2
+                    print(firstDate.timeIntervalSinceNow)
+                    score += (2 * Int(5.0/(abs(firstDate.timeIntervalSinceNow))))
                 }
                 else {
                     if knownCards.contains(index) {
@@ -47,6 +49,7 @@ class Concentration {
                 }
                 cards[index].isFaceUp = true
                 indexOfOneAndOnlyFaceUpCard = index
+                dateOfPreviousMove = Date()
             }
         }
     }
