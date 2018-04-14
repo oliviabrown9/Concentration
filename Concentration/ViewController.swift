@@ -10,16 +10,20 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var flipCountLabel: UILabel!
-    @IBOutlet weak var scoreLabel: UILabel!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet var cardButtons: [UIButton]!
+    @IBOutlet private weak var flipCountLabel: UILabel!
+    @IBOutlet private weak var scoreLabel: UILabel!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private var cardButtons: [UIButton]!
     
-    lazy var game = Concentration(numbersOfPairsOfCards: (cardButtons.count + 1) / 2)
-    var theme: Theme?
-    var emojiChoices = [String]()
+    private lazy var game = Concentration(numbersOfPairsOfCards: numberOfPairsOfCards)
     
-    @IBAction func touchCard(_ sender: UIButton) {
+    var numberOfPairsOfCards: Int {
+        return (cardButtons.count + 1) / 2
+    }
+    private(set) var theme: Theme?
+    private var emojiChoices = [String]()
+    
+    @IBAction private func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.index(of: sender) {
             game.chooseCard(at: cardNumber)
             updateViewFromModel()
@@ -29,7 +33,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func updateViewFromModel() {
+    private func updateViewFromModel() {
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cards[index]
@@ -46,7 +50,7 @@ class ViewController: UIViewController {
         scoreLabel.text = "Score: \(game.score)"
     }
     
-    let themes = [
+    private let themes = [
         Theme(name: "Animals",
               emojiChoices:["🦓", "🦒", "🦔", "🐂", "🐑", "🐒", "🐖", "🐓"],
               backgroundColor: #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1),
@@ -78,9 +82,9 @@ class ViewController: UIViewController {
         setTheme()
     }
     
-    var emojiDictionary = [Int: String]()
+    private var emojiDictionary = [Int: String]()
     
-    func emoji(for card: Card) -> String {
+    private func emoji(for card: Card) -> String {
         if emojiDictionary[card.identifier] == nil, emojiChoices.count > 0 {
             let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
             emojiDictionary[card.identifier] = emojiChoices.remove(at: randomIndex)
@@ -88,7 +92,7 @@ class ViewController: UIViewController {
         return emojiDictionary[card.identifier] ?? "?"
     }
     
-    func setTheme() {
+    private func setTheme() {
         emojiDictionary.removeAll()
         theme = themes[(Int(arc4random_uniform(UInt32(themes.count))))]
         emojiChoices = theme!.emojiChoices
@@ -100,7 +104,7 @@ class ViewController: UIViewController {
         }
     }
     
-    @IBAction func startNewGame(_ sender: UIButton) {
+    @IBAction private func startNewGame(_ sender: UIButton) {
         game.restart()
         setTheme()
         updateViewFromModel()
