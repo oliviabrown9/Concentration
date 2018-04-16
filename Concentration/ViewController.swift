@@ -82,19 +82,18 @@ class ViewController: UIViewController {
         setTheme()
     }
     
-    private var emojiDictionary = [Int: String]()
+    private var emojiDictionary = [Card: String]()
     
     private func emoji(for card: Card) -> String {
-        if emojiDictionary[card.identifier] == nil, emojiChoices.count > 0 {
-            let randomIndex = Int(arc4random_uniform(UInt32(emojiChoices.count)))
-            emojiDictionary[card.identifier] = emojiChoices.remove(at: randomIndex)
+        if emojiDictionary[card] == nil, emojiChoices.count > 0 {
+            emojiDictionary[card] = emojiChoices.remove(at: emojiChoices.count.arc4random)
         }
-        return emojiDictionary[card.identifier] ?? "?"
+        return emojiDictionary[card] ?? "?"
     }
     
     private func setTheme() {
         emojiDictionary.removeAll()
-        theme = themes[(Int(arc4random_uniform(UInt32(themes.count))))]
+        theme = themes[themes.count.arc4random]
         emojiChoices = theme!.emojiChoices
         view.backgroundColor = theme!.backgroundColor
         titleLabel.text = theme!.name
@@ -108,6 +107,20 @@ class ViewController: UIViewController {
         game.restart()
         setTheme()
         updateViewFromModel()
+    }
+}
+
+extension Int {
+    var arc4random: Int {
+        if self > 0 {
+            return Int(arc4random_uniform(UInt32(self)))
+        }
+        else if self < 0 {
+            return -Int(arc4random_uniform(UInt32(abs(self))))
+        }
+        else {
+            return 0
+        }
     }
 }
 

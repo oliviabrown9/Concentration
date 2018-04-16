@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Concentration {
+struct Concentration {
     
     private(set) var cards = [Card]()
     private var knownCards = [Int]()
@@ -18,18 +18,7 @@ class Concentration {
     
     private var indexOfOneAndOnlyFaceUpCard: Int? {
         get {
-            var foundIndex: Int?
-            for index in cards.indices {
-                if cards[index].isFaceUp {
-                    if foundIndex == nil {
-                        foundIndex = index
-                    }
-                    else {
-                        return nil
-                    }
-                }
-            }
-            return foundIndex
+            return cards.indices.filter() { cards[$0].isFaceUp }.oneAndOnly
         }
         set {
             for index in cards.indices {
@@ -40,11 +29,12 @@ class Concentration {
     }
     private var dateOfPreviousMove: Date?
     
-    func chooseCard(at index: Int) {
+    mutating func chooseCard(at index: Int) {
+        assert(cards.indices.contains(index), "Concentration.chooseCard(at \(index): chosen index not in cards")
         if !cards[index].isMatched, !cards[index].isFaceUp  {
             flipCount += 1
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, let firstDate = dateOfPreviousMove, matchIndex != index {
-                if cards[matchIndex].identifier == cards[index].identifier {
+                if cards[matchIndex] == cards[index] {
                     cards[matchIndex].isMatched = true
                     cards[index].isMatched = true
                     print(firstDate.timeIntervalSinceNow)
@@ -70,6 +60,7 @@ class Concentration {
     }
     
     init(numbersOfPairsOfCards: Int) {
+        assert(numbersOfPairsOfCards > 0, "Concentration.init(\(numbersOfPairsOfCards): number of pairs of cards <= 0")
         for _ in 1...numbersOfPairsOfCards {
             let card = Card()
             cards += [card, card]
@@ -80,7 +71,7 @@ class Concentration {
         }
     }
     
-    func restart() {
+    mutating func restart() {
         flipCount = 0
         score = 0
         knownCards.removeAll()
@@ -88,5 +79,11 @@ class Concentration {
             cards[index].isFaceUp = false
             cards[index].isMatched = false
         }
+    }
+}
+
+extension Collection {
+    var oneAndOnly: Element? {
+        return count == 1 ? first : nil
     }
 }
