@@ -32,21 +32,12 @@ class ConcentrationViewController: UIViewController {
             for button in cardButtons {
                 button.backgroundColor = theme!.cardBackgroundColor
             }
+            
+            updateViewFromModel()
         }
     }
-    
-    private var emojiChoices = [String]()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        if theme == nil {
-            theme = ConcentrationTheme(name: "Hearts",
-            emojiChoices:["💕", "💓", "💖", "💗", "💘", "💝", "💞", "❣️"],
-            backgroundColor: #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1),
-            cardBackgroundColor: #colorLiteral(red: 0.6670553684, green: 0.4118469357, blue: 0.8984902501, alpha: 1))
-        }
-    }
+
+    private var emojiChoices = ["💕", "💓", "💖", "💗", "💘", "💝", "💞", "❣️"]
     
     @IBAction private func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.index(of: sender) {
@@ -68,7 +59,7 @@ class ConcentrationViewController: UIViewController {
             }
             else {
                 button.setTitle("", for: .normal)
-                button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0) : theme!.cardBackgroundColor
+                button.backgroundColor = card.isMatched ? #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0) : theme?.cardBackgroundColor ?? #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1)
             }
         }
         flipCountLabel.text = "Flips: \(game.flipCount)"
