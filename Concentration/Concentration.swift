@@ -10,7 +10,7 @@ import Foundation
 
 struct Concentration {
     
-    private(set) var cards = [Card]()
+    private(set) var cards = [ConcentrationCard]()
     private var knownCards = [Int]()
     
     private(set) var flipCount = 0
@@ -62,7 +62,7 @@ struct Concentration {
     init(numbersOfPairsOfCards: Int) {
         assert(numbersOfPairsOfCards > 0, "Concentration.init(\(numbersOfPairsOfCards): number of pairs of cards <= 0")
         for _ in 1...numbersOfPairsOfCards {
-            let card = Card()
+            let card = ConcentrationCard()
             cards += [card, card]
         }
         for index in cards.indices {

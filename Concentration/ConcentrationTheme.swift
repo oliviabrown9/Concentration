@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-struct Theme {
+struct ConcentrationTheme {
     var name: String
     var emojiChoices: [String]
     var backgroundColor: UIColor

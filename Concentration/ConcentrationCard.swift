@@ -8,13 +8,13 @@
 
 import Foundation
 
-struct Card: Hashable {
+struct ConcentrationCard: Hashable {
     
     var hashValue: Int {
         return identifier
     }
     
-    static func ==(lhs: Card, rhs: Card) -> Bool {
+    static func ==(lhs: ConcentrationCard, rhs: ConcentrationCard) -> Bool {
         return lhs.identifier == rhs.identifier
     }
     
@@ -30,6 +30,6 @@ struct Card: Hashable {
     }
     
     init() {
-        self.identifier = Card.getUniqueIdentifier()
+        self.identifier = ConcentrationCard.getUniqueIdentifier()
     }
 }

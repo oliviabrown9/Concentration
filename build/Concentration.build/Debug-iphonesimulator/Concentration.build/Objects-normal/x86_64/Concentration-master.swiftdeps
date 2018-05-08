@@ -1,0 +1,9 @@
+version: "Apple Swift version 4.1 (swiftlang-902.0.48 clang-902.0.37.1)"
+options: "eb755cfa981a33ef1beeedbd93bf817a"
+build_time: [1523984215, 72934000]
+inputs:
+  "/Users/apple/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Concentration/Concentration/ViewController.swift": [1523769364, 0]
+  "/Users/apple/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Concentration/Concentration/Supporting Files/AppDelegate.swift": [1523123130, 0]
+  "/Users/apple/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Concentration/Concentration/Theme.swift": [1523136973, 0]
+  "/Users/apple/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Concentration/Concentration/Concentration.swift": [1523847035, 0]
+  "/Users/apple/Library/Mobile Documents/com~apple~CloudDocs/Desktop/Concentration/Concentration/Card.swift": [1523850779, 0]
