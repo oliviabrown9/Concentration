@@ -20,8 +20,33 @@ class ConcentrationViewController: UIViewController {
     var numberOfPairsOfCards: Int {
         return (cardButtons.count + 1) / 2
     }
-    private(set) var theme: ConcentrationTheme?
+    
+    var theme: ConcentrationTheme? {
+        didSet {
+            emojiChoices = theme!.emojiChoices
+            view.backgroundColor = theme!.backgroundColor
+            titleLabel.text = theme!.name
+            
+            emojiDictionary.removeAll()
+            
+            for button in cardButtons {
+                button.backgroundColor = theme!.cardBackgroundColor
+            }
+        }
+    }
+    
     private var emojiChoices = [String]()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if theme == nil {
+            theme = ConcentrationTheme(name: "Hearts",
+            emojiChoices:["💕", "💓", "💖", "💗", "💘", "💝", "💞", "❣️"],
+            backgroundColor: #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1),
+            cardBackgroundColor: #colorLiteral(red: 0.6670553684, green: 0.4118469357, blue: 0.8984902501, alpha: 1))
+        }
+    }
     
     @IBAction private func touchCard(_ sender: UIButton) {
         if let cardNumber = cardButtons.index(of: sender) {
@@ -50,38 +75,6 @@ class ConcentrationViewController: UIViewController {
         scoreLabel.text = "Score: \(game.score)"
     }
     
-    private let themes = [
-        ConcentrationTheme(name: "Animals",
-              emojiChoices:["🦓", "🦒", "🦔", "🐂", "🐑", "🐒", "🐖", "🐓"],
-              backgroundColor: #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1),
-              cardBackgroundColor: #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)),
-        ConcentrationTheme(name: "Sports",
-              emojiChoices:["🏈", "🏀", "🎾", "⚽️", "🏐", "⚾️", "🎳", "⛸"],
-              backgroundColor: #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1),
-              cardBackgroundColor: #colorLiteral(red: 0.1960784346, green: 0.3411764801, blue: 0.1019607857, alpha: 1)),
-        ConcentrationTheme(name: "Smiles",
-              emojiChoices:["😀", "😁", "😂", "😃", "😄", "😊", "🙂", "☺️"],
-              backgroundColor: #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1),
-              cardBackgroundColor: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)),
-        ConcentrationTheme(name: "Cats",
-              emojiChoices:["😸", "😹", "😺", "😻", "😼", "😽", "😿", "🙀"],
-              backgroundColor: #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1),
-              cardBackgroundColor: #colorLiteral(red: 0.7450980544, green: 0.1568627506, blue: 0.07450980693, alpha: 1)),
-        ConcentrationTheme(name: "Hearts",
-              emojiChoices:["💕", "💓", "💖", "💗", "💘", "💝", "💞", "❣️"],
-              backgroundColor: #colorLiteral(red: 0.9098039269, green: 0.4784313738, blue: 0.6431372762, alpha: 1),
-              cardBackgroundColor: #colorLiteral(red: 0.6670553684, green: 0.4118469357, blue: 0.8984902501, alpha: 1)),
-        ConcentrationTheme(name: "Ocean",
-              emojiChoices:["🐠", "🏖", "🏝", "⛵️", "🐋", "🐬", "🦀", "🐚"],
-              backgroundColor: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1),
-              cardBackgroundColor: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1))
-    ]
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setTheme()
-    }
-    
     private var emojiDictionary = [ConcentrationCard: String]()
     
     private func emoji(for card: ConcentrationCard) -> String {
@@ -91,21 +84,8 @@ class ConcentrationViewController: UIViewController {
         return emojiDictionary[card] ?? "?"
     }
     
-    private func setTheme() {
-        emojiDictionary.removeAll()
-        theme = themes[themes.count.arc4random]
-        emojiChoices = theme!.emojiChoices
-        view.backgroundColor = theme!.backgroundColor
-        titleLabel.text = theme!.name
-        
-        for button in cardButtons {
-            button.backgroundColor = theme!.cardBackgroundColor
-        }
-    }
-    
     @IBAction private func startNewGame(_ sender: UIButton) {
         game.restart()
-        setTheme()
         updateViewFromModel()
     }
 }
