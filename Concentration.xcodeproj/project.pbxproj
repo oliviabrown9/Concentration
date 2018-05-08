@@ -62,13 +62,13 @@
 		75DAC92720793B3A00740417 /* Concentration */ = {
 			isa = PBXGroup;
 			children = (
-				75DAC93A20793C6600740417 /* Supporting Files */,
 				75DAC92A20793B3A00740417 /* ConcentrationViewController.swift */,
 				75DAC93B20795B2A00740417 /* Concentration.swift */,
 				75DAC93D20795BDF00740417 /* ConcentrationCard.swift */,
 				75DAC93F2079710A00740417 /* ConcentrationTheme.swift */,
-				75DAC92C20793B3A00740417 /* Main.storyboard */,
 				75550DEC20A16F6400BB3E37 /* ConcentrationThemeChooserViewController.swift */,
+				75DAC93A20793C6600740417 /* Supporting Files */,
+				75DAC92C20793B3A00740417 /* Main.storyboard */,
 				75DAC93420793B3C00740417 /* Info.plist */,
 			);
 			path = Concentration;
